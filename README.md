@@ -53,7 +53,7 @@ crw-------    1 root     root      212,   7 Nov 25 16:29 net0
 
 #### 说明
 
-支持“乐视/爱华/CVB” DTMB棒
-驱动成功加载后出现/dev/dvb/adapterx/目录
-提供给所有支持标准linux dvb api的软件使用
-本源码通讯协议通过usb抓包取得，并参考网上的LeDtmb windows软件源码，感谢提供者！
+支持“乐视/爱华/CVB” DTMB棒   
+驱动成功加载后出现/dev/dvb/adapterx/目录   
+提供给所有支持标准linux dvb api的软件使用   
+本源码通讯协议通过usb抓包取得，并参考网上的LeDtmb windows软件源码，感谢提供者！   
