@@ -32,16 +32,11 @@ obj-m += dtmbusb-dev.o
 
 
 PWD=$(shell pwd)
-#KERNEL_DIR=/home/tony/PandoraBox-SDK-ralink-mt7621_gcc-5.5.0_uClibc-1.0.x.Linux-x86_64-2018-12-14-git-ba60306f2/build_dir/target-mipsel_1004kc+dsp_uClibc-1.0.x/linux-ralink_mt7621/linux-3.14.79
-#TOOLCHAIN="/home/tony/PandoraBox-SDK-ralink-mt7621_gcc-5.5.0_uClibc-1.0.x.Linux-x86_64-2018-12-14-git-ba60306f2/staging_dir/toolchain-mipsel_1004kc+dsp_gcc-5.5.0_uClibc-1.0.x/bin/mipsel-openwrt-linux-"
 
-#KERNEL_TO_DIR=/home/tony/openwrt-sdk-18.06.0-ar71xx-generic_gcc-7.3.0_musl.Linux-x86_64/build_dir/target-mips_24kc_musl/linux-ar71xx_generic/linux-4.14.104
-
-ccflags-y += -I$(KERNEL_DIR)/drivers/media/usb/dvb-usb/
-ccflags-y += -I$(KERNEL_DIR)/drivers/media/dvb-core/
-ccflags-y += -I$(KERNEL_DIR)/drivers/media/dvb-frontends/
-ccflags-y += -I$(KERNEL_DIR)/drivers/media/usb/dvb-usb-v2/
-#ccflags-y += -Ilinuxdvb/
+ccflags-y += -I$(KERNEL_DIR)/$(DVB_CORE_DIR)
+ccflags-y += -I$(KERNEL_DIR)/$(DVB_USB_DIR)
+ccflags-y += -I$(KERNEL_DIR)/$(DVB_USB_V2_DIR)
+ccflags-y += -I$(KERNEL_DIR)/$(DVB_FRONTENDS_DIR)
 
 all:
 	make -C $(KERNEL_DIR) \
@@ -51,6 +46,12 @@ all:
 	modules
 
 prepare:
+	if [ ! -d "dl" ];then \
+		mkdir dl; \
+        fi
+	if [ ! -d "linuxdvb" ];then \
+		mkdir linuxdvb; \
+	fi
 	wget -c $(URL)/$(KERNEL_VERSION).tar.xz -O $(PWD)/dl/$(KERNEL_VERSION).tar.xz
 	tar xvf $(PWD)/dl/$(KERNEL_VERSION).tar.xz -C $(KERNEL_DIR)/ --wildcards --strip-components 1 \
 		$(KERNEL_VERSION)/$(DVB_CORE_DIR)/* \
@@ -66,8 +67,6 @@ prepare:
 		$(KERNEL_VERSION)/$(DVB_USB_DIR)/dvb-usb*.h \
 		$(KERNEL_VERSION)/$(DVB_USB_V2_DIR)/usb_urb.c \
 		$(KERNEL_VERSION)/$(DVB_USB_V2_DIR)/dvb_usb*
-test:
-	echo $(PWD)
 
 clean:
 	rm -f *.ko
