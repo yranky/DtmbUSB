@@ -1,4 +1,3 @@
-##ccflags-y += -D CONFIG_TRIM_UNUSED_KSYMS
 ccflags-y += -D CONFIG_DVB_NET
 
 KERNEL_VERSION=$(notdir $(KERNEL_DIR))
@@ -30,7 +29,6 @@ obj-m += dvb_usb_v2.o
 obj-m += dtmbusb-fe.o
 obj-m += dtmbusb-dev.o
 
-
 PWD=$(shell pwd)
 
 ccflags-y += -I$(KERNEL_DIR)/$(DVB_CORE_DIR)
@@ -48,7 +46,7 @@ all:
 prepare:
 	if [ ! -d "dl" ];then \
 		mkdir dl; \
-        fi
+	fi
 	if [ ! -d "linuxdvb" ];then \
 		mkdir linuxdvb; \
 	fi
