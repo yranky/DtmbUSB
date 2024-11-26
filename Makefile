@@ -32,11 +32,10 @@ obj-m += dtmbusb-dev.o
 
 PWD=$(shell pwd)
 
-ccflags-y += -I$(KERNEL_DIR)/drivers/media/usb/dvb-usb/
-ccflags-y += -I$(KERNEL_DIR)/drivers/media/dvb-core/
-ccflags-y += -I$(KERNEL_DIR)/drivers/media/dvb-frontends/
-ccflags-y += -I$(KERNEL_DIR)/drivers/media/usb/dvb-usb-v2/
-#ccflags-y += -Ilinuxdvb/
+ccflags-y += -I$(KERNEL_DIR)/$(DVB_CORE_DIR)
+ccflags-y += -I$(KERNEL_DIR)/$(DVB_USB_DIR)
+ccflags-y += -I$(KERNEL_DIR)/$(DVB_USB_V2_DIR)
+ccflags-y += -I$(KERNEL_DIR)/$(DVB_FRONTENDS_DIR)
 
 all:
 	make -C $(KERNEL_DIR) \
@@ -46,8 +45,12 @@ all:
 	modules
 
 prepare:
-	mkdir dl
-	mkdir linuxdvb
+	if [ ! -d "dl" ];then \
+	mkdir dl; \
+	fi
+	if [ ! -d "linuxdvb" ];then \
+		mkdir linuxdvb; \
+	fi
 	wget -c $(URL)/$(KERNEL_VERSION).tar.xz -O $(PWD)/dl/$(KERNEL_VERSION).tar.xz
 	tar xvf $(PWD)/dl/$(KERNEL_VERSION).tar.xz -C $(KERNEL_DIR)/ --wildcards --strip-components 1 \
 		$(KERNEL_VERSION)/$(DVB_CORE_DIR)/* \
@@ -63,8 +66,6 @@ prepare:
 		$(KERNEL_VERSION)/$(DVB_USB_DIR)/dvb-usb*.h \
 		$(KERNEL_VERSION)/$(DVB_USB_V2_DIR)/usb_urb.c \
 		$(KERNEL_VERSION)/$(DVB_USB_V2_DIR)/dvb_usb*
-test:
-	echo $(PWD)
 
 clean:
 	rm -f *.ko
