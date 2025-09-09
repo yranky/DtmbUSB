@@ -279,6 +279,17 @@ static int dtmbusb_get_frontend(struct dvb_frontend *fe, struct dtv_frontend_pro
 	s8 ret;
 	u8 *buf;
 
+	if (!priv || !priv->dev) {
+        dev_err(fe->dvb->device, "dtmbusb: priv or priv->dev is NULL\n");
+        return -EINVAL;
+    }
+    
+    /* 确保 props 不为 NULL */
+    if (!props) {
+        dev_err(fe->dvb->device, "dtmbusb: props is NULL\n");
+        return -EINVAL;
+    }
+
 	buf = kmalloc(CMD_GET_SIGNAL_INFO.length, GFP_KERNEL);
 	if (buf) {
 
