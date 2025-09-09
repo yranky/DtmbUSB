@@ -1,0 +1,7 @@
+*.o
+*.ko
+dl
+linuxdvb
+*.mod.c
+*.symvers
+*.order
