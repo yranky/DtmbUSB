@@ -19,6 +19,7 @@ dvb-core-objs += linuxdvb/dvb_ringbuffer.o linuxdvb/dvb_math.o
 
 obj-m += dvb-core.o
 
+
 dvb-usb-objs += linuxdvb/dvb-usb-firmware.o linuxdvb/dvb-usb-init.o linuxdvb/dvb-usb-urb.o 
 dvb-usb-objs += linuxdvb/dvb-usb-i2c.o linuxdvb/dvb-usb-dvb.o linuxdvb/dvb-usb-remote.o linuxdvb/usb-urb.o
 obj-m += dvb-usb.o
@@ -50,7 +51,7 @@ prepare:
 	if [ ! -d "linuxdvb" ];then \
 		mkdir linuxdvb; \
 	fi
-	wget -c $(URL)/$(KERNEL_VERSION).tar.xz -O $(PWD)/dl/$(KERNEL_VERSION).tar.xz
+	cp /share/$(KERNEL_VERSION).tar.xz $(PWD)/dl/$(KERNEL_VERSION).tar.xz
 	tar xvf $(PWD)/dl/$(KERNEL_VERSION).tar.xz -C $(KERNEL_DIR)/ --wildcards --strip-components 1 \
 		$(KERNEL_VERSION)/$(DVB_CORE_DIR)/* \
 		$(KERNEL_VERSION)/$(DVB_USB_DIR)/dvb*.h \
